@@ -198,8 +198,35 @@ class _ColorSequenceGameState extends State<ColorSequenceGame> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('${loc.score}: $score', style: TextStyle(fontSize: 24)),
-              SizedBox(height: 20),
+              const SizedBox(height: 24),
+              Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.star,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 28),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${loc.score}: $score',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
               GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
