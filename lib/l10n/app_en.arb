@@ -1,0 +1,11 @@
+{
+  "appTitle": "Color Sequence Game",
+  "score": "Score",
+  "start": "Start",
+  "gameOver": "Game Over",
+  "yourScore": "Your score: {score}",
+  "restart": "Restart",
+  "close": "Close",
+  "congrats": "Congrats!",
+  "congratsScore": "You reached a score of {score}!"
+}

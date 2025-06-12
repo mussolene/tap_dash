@@ -1,0 +1,11 @@
+{
+  "appTitle": "Цветовая последовательность",
+  "score": "Счёт",
+  "start": "Старт",
+  "gameOver": "Конец игры",
+  "yourScore": "Ваш счёт: {score}",
+  "restart": "Заново",
+  "close": "Закрыть",
+  "congrats": "Поздравляем!",
+  "congratsScore": "Вы достигли счёта {score}!"
+}
