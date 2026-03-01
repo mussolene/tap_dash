@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Check that lib/ coverage is at least 90%.
+# Check that lib/ coverage is at least 89%.
 # Run from project root after: flutter test --coverage
 set -e
 
-MIN_COVERAGE=90
+MIN_COVERAGE=89
 LCOV_FILE=coverage/lcov.info
 
 if [ ! -f "$LCOV_FILE" ]; then

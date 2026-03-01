@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 /// Takes screenshots for README: onboarding, game, settings.
-/// Run: flutter drive --driver=test_driver/integration_test.dart \
-///        --target=integration_test/screenshots_test.dart -d <device>
+/// Run: `flutter drive --driver=test_driver/integration_test.dart
+///        --target=integration_test/screenshots_test.dart -d [device]`
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 

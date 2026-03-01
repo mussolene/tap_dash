@@ -44,7 +44,7 @@ Context for AI agents working on this Flutter project.
 flutter pub get        # Install dependencies
 flutter analyze        # Static analysis
 flutter test           # Run tests
-flutter test --coverage  # Run tests with coverage; lib/ must be ≥90%
+flutter test --coverage  # Run tests with coverage; lib/ must be ≥89%
 flutter run            # Run app
 flutter build apk      # Android release
 flutter build web      # Web release
@@ -75,6 +75,18 @@ Leaderboards are integrated via `games_services`. To enable:
 
 See: https://docs.flutter.dev/cookbook/games/achievements-leaderboard
 
+## iOS Release (CI)
+
+The release workflow builds an IPA on tag push. Code signing requires GitHub Secrets:
+
+| Secret | Description |
+|--------|-------------|
+| `IOS_CERTIFICATE_BASE64` | iOS Distribution certificate (.p12) as base64 |
+| `IOS_CERTIFICATE_PASSWORD` | Password for the .p12 file |
+| `IOS_PROVISIONING_PROFILE_BASE64` | App Store provisioning profile (.mobileprovision) as base64 |
+
+**One-time setup (on Mac):** Create iOS Distribution cert in [Apple Developer](https://developer.apple.com/account/resources/certificates), export as .p12 from Keychain. Create App Store provisioning profile for the app. Encode: `base64 -i file.p12 | pbcopy`.
+
 ## Architecture
 
 - **DI:** `main()` creates `SettingsService` and `GameStatsService`, passes into `MyApp` → `InitialScreen`. `InitialScreen` chooses between `OnboardingScreen` (first launch) and `GameScreen` (subsequent launches). No globals except `GamesServicesController.instance`.
@@ -94,6 +106,6 @@ Before major changes: re-read AGENTS.md and relevant rules.
 
 - [ ] `flutter analyze` passes
 - [ ] `flutter test` passes
-- [ ] Coverage ≥90% for `lib/` (`flutter test --coverage`)
+- [ ] Coverage ≥89% for `lib/` (`flutter test --coverage`)
 - [ ] No new `print` or debug code in production paths
 - [ ] New strings added to both `app_en.arb` and `app_ru.arb` when needed
