@@ -4,7 +4,7 @@
 
 | Onboarding | Game | Settings |
 |:----------:|:----:|:--------:|
-| <img src="docs/onboarding_screen.png" width="280" height="480" alt="Onboarding" /> | <img src="docs/game_screen.png" width="280" height="480" alt="Game" /> | <img src="docs/settings_screen.png" width="280" height="480" alt="Settings" /> |
+| ![Onboarding](docs/onboarding_screen.png) | ![Game](docs/game_screen.png) | ![Settings](docs/settings_screen.png) |
 
 ## Features
 

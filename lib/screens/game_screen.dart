@@ -317,7 +317,10 @@ class _GameScreenState extends State<GameScreen> {
       valueListenable: widget.settingsService.settings,
       builder: (context, appSettings, _) {
         final numColors = appSettings.numColors;
-        final buttonSize = size.width / 2.5;
+        const horizontalPadding = 20.0;
+        const gridSpacing = 16.0;
+        final buttonSize =
+            (size.width - horizontalPadding * 2 - gridSpacing) / 2;
 
     return Scaffold(
       appBar: AppBar(
@@ -459,21 +462,24 @@ class _GameScreenState extends State<GameScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 24),
-              GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 1,
-                ),
-                itemCount: numColors,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 1,
+                  ),
+                  itemCount: numColors,
                 itemBuilder: (context, index) => ColorButton(
                   color: _colors[index],
                   isHighlighted: highlightedIndex == index,
                   showCorrectFlash: _lastCorrectIndex == index,
                   size: buttonSize,
                   onTap: () => _onColorTap(index),
+                ),
                 ),
               ),
               const SizedBox(height: 24),
