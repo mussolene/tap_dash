@@ -4,7 +4,11 @@ import 'package:flutter_sound/flutter_sound.dart';
 
 import 'audio_service_interface.dart';
 
-const _xyloNotes = [261.63, 329.63, 392.00, 493.88]; // C4, E4, G4, B4
+// C4, D4, E4, F4, G4, A4, B4, C5 — supports up to 8 colors
+const _xyloNotes = [
+  261.63, 293.66, 329.63, 349.23,
+  392.00, 440.00, 493.88, 523.25,
+];
 
 /// Service for synthesized xylophone-style audio.
 /// Manages player lifecycle; call [close] when done.

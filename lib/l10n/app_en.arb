@@ -31,5 +31,7 @@
   "howToPlay": "How to play",
   "onboardingStep1": "Watch the sequence of colors",
   "onboardingStep2": "Repeat the sequence by tapping the buttons",
-  "onboardingStep3": "Each round adds one more color. Don't make a mistake!"
+  "onboardingStep3": "Each round adds one more color. Don't make a mistake!",
+  "difficulty": "Difficulty",
+  "numColorsLabel": "{count} colors"
 }

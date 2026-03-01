@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tap_dash/l10n/app_localizations.dart';
-import 'package:tap_dash/services/settings_service.dart';
+import 'package:tap_dash/services/settings_service.dart'
+    show AppSettings, SettingsService, numColorsOptions;
 import 'package:tap_dash/widgets/settings_tile.dart';
 
 /// Settings screen: sound, haptics, theme, and optional leaderboard link.
@@ -60,6 +61,14 @@ class SettingsScreen extends StatelessWidget {
                 },
                 onChanged: settingsService.setThemeMode,
                 icon: Icons.palette,
+              ),
+              SettingsTileSelector<int>(
+                title: loc.difficulty,
+                value: appSettings.numColors,
+                options: numColorsOptions,
+                labelBuilder: (n) => loc.numColorsLabel('$n'),
+                onChanged: settingsService.setNumColors,
+                icon: Icons.grid_view,
               ),
             ],
           );

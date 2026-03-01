@@ -125,4 +125,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingStep3 =>
       'Each round adds one more color. Don\'t make a mistake!';
+
+  @override
+  String get difficulty => 'Difficulty';
+
+  @override
+  String numColorsLabel(Object count) {
+    return '$count colors';
+  }
 }

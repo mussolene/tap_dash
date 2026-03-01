@@ -4,16 +4,17 @@ Context for AI agents working on this Flutter project.
 
 ## Project Overview
 
-**tap_dash** is a Simon Says-style memory game. The app shows a sequence of colored buttons (red, green, blue, yellow); the player must repeat the sequence. Each round adds one more color. Wrong tap ends the game.
+**tap_dash** is a Simon Says-style memory game. The app shows a sequence of colored buttons; the player must repeat the sequence. Each round adds one more color. Wrong tap ends the game.
 
 ## Game Mechanics
 
-- **Colors:** 4 buttons (indices 0–3), stored in `colors` list
-- **Sequence:** Grows by one random color per round (`sequence.add(Random().nextInt(4))`)
+- **Colors:** 4, 6, or 8 buttons (configurable in Settings → Difficulty). Stored in `_colors`; `numColors` from `AppSettings`.
+- **Sequence:** Grows by one random color per round (`addRound(rng.nextInt(numColors), numColors: numColors)`)
 - **Flow:** `main` → `InitialScreen` → (`OnboardingScreen` | `GameScreen`); in game: `startGame` → `nextRound` → `playSequence` → user taps → `onColorTap` → correct: next round / wrong: game over
 - **Score:** Incremented on each successful round
 - **Celebration:** Milestone badge + melody every 5 points
 - **Progression:** High score persisted; speed increases every 5 rounds
+- **Demo mode:** Before the game starts, tapping cubes plays sound (and haptic) only—no score impact. Lets users explore the xylophone.
 
 ## Code Structure
 
@@ -31,7 +32,7 @@ Context for AI agents working on this Flutter project.
 | `lib/game/random_provider.dart` | Abstraction for random; inject for deterministic tests |
 | `lib/services/game_stats_service.dart` | High score, games played, onboarding flag |
 | `lib/services/games_services_controller.dart` | Game Center (iOS) / Play Games (Android) integration |
-| `lib/services/settings_service.dart` | Sound, haptics, theme settings |
+| `lib/services/settings_service.dart` | Sound, haptics, theme, numColors (4/6/8) |
 | `lib/game/game_state.dart` | Pure game logic (testable) |
 | `lib/l10n/` | Localizations (en, ru) |
 | `test/` | Widget and unit tests |

@@ -52,11 +52,16 @@ class _GameScreenState extends State<GameScreen> {
   late final AudioServiceInterface _audioService =
       widget._audioService ?? AudioService();
 
+  /// Colors for 4, 6, or 8 cubes. Use sublist(0, numColors).
   static const _colors = [
     Colors.red,
     Colors.green,
     Colors.blue,
     Colors.yellow,
+    Colors.orange,
+    Colors.deepPurple,
+    Colors.teal,
+    Colors.pink,
   ];
 
   @override
@@ -104,8 +109,9 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<void> _nextRound() async {
     final rng = widget._randomProvider ?? DefaultRandomProvider();
+    final numColors = widget.settingsService.current.numColors;
     setState(() {
-      _gameState = _gameState.addRound(rng.nextInt(4));
+      _gameState = _gameState.addRound(rng.nextInt(numColors), numColors: numColors);
     });
     await Future.delayed(const Duration(seconds: 1));
     _playSequence();
@@ -143,7 +149,8 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> _onColorTap(int index) async {
-    if (!_gameState.isPlaying) return;
+    final numColors = widget.settingsService.current.numColors;
+    if (index < 0 || index >= numColors) return;
 
     setState(() {
       highlightedIndex = index;
@@ -163,12 +170,21 @@ class _GameScreenState extends State<GameScreen> {
       }
     }
 
+    // Demo mode: when game not started, only play sound (no score impact)
+    if (!_gameState.isPlaying) {
+      await Future.delayed(const Duration(milliseconds: 120));
+      if (mounted) setState(() => pressedIndex = -1);
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (mounted) setState(() => highlightedIndex = -1);
+      return;
+    }
+
     await Future.delayed(const Duration(milliseconds: 120));
     setState(() => pressedIndex = -1);
     await Future.delayed(const Duration(milliseconds: 180));
     setState(() => highlightedIndex = -1);
 
-    final result = _gameState.processTap(index);
+    final result = _gameState.processTap(index, numColors: numColors);
     if (result.result == TapResult.roundComplete) {
       setState(() => _gameState = result.newState);
       final isMilestone = _gameState.score % 5 == 0 && _gameState.score > 0;
@@ -297,7 +313,11 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
-    final buttonSize = size.width / 2.5;
+    return ValueListenableBuilder<AppSettings>(
+      valueListenable: widget.settingsService.settings,
+      builder: (context, appSettings, _) {
+        final numColors = appSettings.numColors;
+        final buttonSize = size.width / 2.5;
 
     return Scaffold(
       appBar: AppBar(
@@ -445,8 +465,9 @@ class _GameScreenState extends State<GameScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
+                  childAspectRatio: 1,
                 ),
-                itemCount: 4,
+                itemCount: numColors,
                 itemBuilder: (context, index) => ColorButton(
                   color: _colors[index],
                   isHighlighted: highlightedIndex == index,
@@ -522,6 +543,8 @@ class _GameScreenState extends State<GameScreen> {
         ],
         ),
       ),
+    );
+      },
     );
   }
 }

@@ -4,28 +4,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 const _keySound = 'sound_enabled';
 const _keyHaptics = 'haptics_enabled';
 const _keyTheme = 'theme_mode';
+const _keyNumColors = 'num_colors';
+
+/// Supported color counts for difficulty (4, 6, 8).
+const List<int> numColorsOptions = [4, 6, 8];
 
 /// Application settings, persisted via shared_preferences.
 class AppSettings {
   final bool soundEnabled;
   final bool hapticsEnabled;
   final ThemeMode themeMode;
+  final int numColors;
 
   const AppSettings({
     this.soundEnabled = true,
     this.hapticsEnabled = true,
     this.themeMode = ThemeMode.system,
+    this.numColors = 4,
   });
 
   AppSettings copyWith({
     bool? soundEnabled,
     bool? hapticsEnabled,
     ThemeMode? themeMode,
+    int? numColors,
   }) =>
       AppSettings(
         soundEnabled: soundEnabled ?? this.soundEnabled,
         hapticsEnabled: hapticsEnabled ?? this.hapticsEnabled,
         themeMode: themeMode ?? this.themeMode,
+        numColors: numColors ?? this.numColors,
       );
 }
 
@@ -37,6 +45,7 @@ class SettingsService {
           soundEnabled: prefs.getBool(_keySound) ?? true,
           hapticsEnabled: prefs.getBool(_keyHaptics) ?? true,
           themeMode: _themeModeFromInt(prefs.getInt(_keyTheme) ?? 0),
+          numColors: _clampNumColors(prefs.getInt(_keyNumColors) ?? 4),
         ));
 
   final SharedPreferences _prefs;
@@ -48,6 +57,10 @@ class SettingsService {
       2 => ThemeMode.dark,
       _ => ThemeMode.system,
     };
+  }
+
+  static int _clampNumColors(int v) {
+    return numColorsOptions.contains(v) ? v : 4;
   }
 
   static int _themeModeToInt(ThemeMode m) {
@@ -78,5 +91,11 @@ class SettingsService {
   Future<void> setThemeMode(ThemeMode m) async {
     await _prefs.setInt(_keyTheme, _themeModeToInt(m));
     settings.value = settings.value.copyWith(themeMode: m);
+  }
+
+  Future<void> setNumColors(int n) async {
+    final v = _clampNumColors(n);
+    await _prefs.setInt(_keyNumColors, v);
+    settings.value = settings.value.copyWith(numColors: v);
   }
 }

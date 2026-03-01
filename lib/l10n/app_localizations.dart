@@ -295,6 +295,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Each round adds one more color. Don\'t make a mistake!'**
   String get onboardingStep3;
+
+  /// No description provided for @difficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get difficulty;
+
+  /// No description provided for @numColorsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} colors'**
+  String numColorsLabel(Object count);
 }
 
 class _AppLocalizationsDelegate

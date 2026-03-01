@@ -25,10 +25,10 @@ class GameState {
   GameState startGame() => GameState(isPlaying: true);
 
   /// Adds a new color to the sequence and starts a new round.
-  /// [nextColor] must be 0-3 (indices for the 4 colors).
-  GameState addRound(int nextColor) {
-    if (nextColor < 0 || nextColor > 3) {
-      throw RangeError('nextColor must be 0-3, got $nextColor');
+  /// [nextColor] must be in [0, numColors).
+  GameState addRound(int nextColor, {int numColors = 4}) {
+    if (nextColor < 0 || nextColor >= numColors) {
+      throw RangeError('nextColor must be 0-${numColors - 1}, got $nextColor');
     }
     final newSequence = [...sequence, nextColor];
     return copyWith(
@@ -39,8 +39,8 @@ class GameState {
 
   /// Processes a color tap. Returns the result and the new state (for roundComplete/wrong).
   /// For [correct], the state is updated in-place; call [processTap] again for subsequent taps.
-  ({TapResult result, GameState newState}) processTap(int index) {
-    if (!isPlaying || index < 0 || index > 3) {
+  ({TapResult result, GameState newState}) processTap(int index, {int numColors = 4}) {
+    if (!isPlaying || index < 0 || index >= numColors) {
       return (result: TapResult.wrong, newState: this);
     }
     if (sequence.isEmpty) {
