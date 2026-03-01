@@ -1,0 +1,33 @@
+---
+description: Test conventions for tap_dash
+globs: "test/**/*.dart"
+alwaysApply: false
+---
+
+# Test Conventions
+
+## Setup
+
+- Use `flutter_test` package
+- Import app under test: `package:tap_dash/main.dart` or specific modules
+
+## Widget Tests
+
+- Wrap tests with `MaterialApp` when widgets need `AppLocalizations` or theme
+- Use `tester.pumpWidget()`, `tester.tap()`, `tester.pump()` for interactions
+- Find widgets by `find.text()`, `find.byType()`, `find.byKey()` as appropriate
+- Avoid platform-specific APIs (Vibration, FlutterSound) in widget tests — mock or skip
+
+## Unit Tests
+
+- Place in `test/` with `_test.dart` suffix or under descriptive folder
+- Test pure logic in isolation; inject dependencies when possible
+- Use `expect()` from `package:test/test.dart`
+
+## Running
+
+```bash
+flutter test
+```
+
+Ensure all tests pass before committing.

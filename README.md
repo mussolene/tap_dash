@@ -1,16 +1,70 @@
 # tap_dash
 
-A new Flutter project.
+**Color Sequence Game** — a Simon Says-style memory game built with Flutter. Watch the sequence of colored buttons, then repeat it. Each round adds one more color to remember.
+
+## Features
+
+- 4-color grid (red, green, blue, yellow) with sound and haptic feedback
+- Synthesized xylophone-style notes for each color
+- Confetti celebration every 5 points
+- Light/dark theme (system-based)
+- Localization: English and Russian
+- Runs on iOS, Android, Web, macOS, Linux, Windows
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (3.6.0+)
+- Dart SDK ^3.6.0
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone <repository-url>
+cd tap_dash
+flutter pub get
+```
+
+### Run
+
+```bash
+# iOS Simulator (open Simulator first: open -a Simulator)
+./run_ios.sh
+# or: DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer flutter run -d ios --debug
+
+# Run on connected device or emulator
+flutter run
+
+# Build for release
+flutter build apk      # Android
+flutter build ios      # iOS
+flutter build web      # Web
+```
+
+### Test
+
+```bash
+flutter analyze
+flutter test
+```
+
+## Project Structure
+
+```
+lib/
+├── main.dart           # App entry point
+├── screens/            # Screens
+│   └── game_screen.dart
+├── widgets/            # Reusable widgets
+│   └── color_button.dart
+├── services/           # Platform services
+│   └── audio_service.dart
+├── game/               # Game logic
+│   └── game_state.dart
+└── l10n/               # Localizations (en, ru)
+```
+
+## License
+
+See [LICENSE](LICENSE) for details.

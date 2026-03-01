@@ -1,0 +1,39 @@
+---
+description: Flutter/Dart coding standards for tap_dash
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Flutter / Dart Conventions
+
+## Formatting
+
+- Run `dart format .` before committing
+- Use 2-space indentation
+- Trailing commas for multi-line lists and parameters
+
+## Naming
+
+- Classes: `PascalCase`
+- Variables, methods: `camelCase`
+- Private members: `_leadingUnderscore`
+- Constants: `lowerCamelCase` or `lowercase_with_underscores` for compile-time constants
+
+## Structure
+
+- Place app code under `lib/`
+- Use `package:tap_dash/...` imports for project files
+- Localization: add strings to both `lib/l10n/app_en.arb` and `app_ru.arb`
+- Access localized strings via `AppLocalizations.of(context)!`
+
+## Widgets
+
+- Prefer `const` constructors where possible
+- Use `super.key` in widget constructors
+- Check `mounted` before `setState` after async gaps
+- Dispose controllers in `dispose()`
+
+## Lint
+
+- `flutter analyze` must pass
+- Follow `package:flutter_lints/flutter.yaml` rules in `analysis_options.yaml`
