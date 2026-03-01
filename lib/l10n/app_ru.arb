@@ -8,6 +8,8 @@
   "close": "Закрыть",
   "congrats": "Поздравляем!",
   "congratsScore": "Вы достигли счёта {score}!",
+  "milestoneLevel": "Уровень {level}",
+  "roundLength": "{count} цветов",
   "settings": "Настройки",
   "sound": "Звук",
   "haptics": "Вибрация",

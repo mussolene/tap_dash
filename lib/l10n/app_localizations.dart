@@ -152,6 +152,18 @@ abstract class AppLocalizations {
   /// **'You reached a score of {score}!'**
   String congratsScore(Object score);
 
+  /// No description provided for @milestoneLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String milestoneLevel(Object level);
+
+  /// No description provided for @roundLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} colors'**
+  String roundLength(Object count);
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:

@@ -6,7 +6,7 @@
 
 - 4-color grid (red, green, blue, yellow) with sound and haptic feedback
 - Synthesized xylophone-style notes for each color
-- Confetti celebration every 5 points
+- Milestone celebration every 5 points (badge + melody)
 - Light/dark theme (system-based) and Settings screen (sound, haptics, theme)
 - Onboarding "How to play" on first launch
 - Localization: English and Russian

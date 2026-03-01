@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Color Sequence Game (Simon Says-style memory game)
 - 4-color grid with synthesized xylophone notes
 - Haptic feedback (vibration)
-- Confetti celebration every 5 points
+- Milestone celebration every 5 points (badge + melody)
 - Light/dark theme support
 - Localization: English and Russian
 - Modular architecture: screens, widgets, services, game logic

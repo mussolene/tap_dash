@@ -40,6 +40,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String milestoneLevel(Object level) {
+    return 'Level $level';
+  }
+
+  @override
+  String roundLength(Object count) {
+    return '$count colors';
+  }
+
+  @override
   String get settings => 'Settings';
 
   @override

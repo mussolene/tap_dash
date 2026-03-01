@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:confetti/confetti.dart';
 import 'package:tap_dash/game/game_state.dart' show GameState, TapResult;
 import 'package:tap_dash/game/random_provider.dart';
 import 'package:tap_dash/l10n/app_localizations.dart';
@@ -49,10 +48,9 @@ class _GameScreenState extends State<GameScreen> {
   int highlightedIndex = -1;
   int pressedIndex = -1;
   int? _lastCorrectIndex;
+  int? _milestoneScore;
   late final AudioServiceInterface _audioService =
       widget._audioService ?? AudioService();
-  final _confettiController =
-      ConfettiController(duration: const Duration(seconds: 1));
 
   static const _colors = [
     Colors.red,
@@ -70,7 +68,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     _audioService.close();
-    _confettiController.dispose();
     super.dispose();
   }
 
@@ -174,8 +171,9 @@ class _GameScreenState extends State<GameScreen> {
     final result = _gameState.processTap(index);
     if (result.result == TapResult.roundComplete) {
       setState(() => _gameState = result.newState);
-      if (_gameState.score % 5 == 0) {
-        _confettiController.play();
+      final isMilestone = _gameState.score % 5 == 0 && _gameState.score > 0;
+      if (isMilestone) {
+        setState(() => _milestoneScore = _gameState.score);
         if (widget.settingsService.current.soundEnabled) {
           try {
             await _audioService.playCongratsMelody();
@@ -183,21 +181,13 @@ class _GameScreenState extends State<GameScreen> {
             debugPrint('Audio playCongratsMelody failed: $e');
           }
         }
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                AppLocalizations.of(context)!.congratsScore(
-                  '${_gameState.score}',
-                ),
-              ),
-              behavior: SnackBarBehavior.floating,
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        }
+        await Future.delayed(const Duration(milliseconds: 800));
+        if (mounted) setState(() => _milestoneScore = null);
       }
-      _nextRound();
+      if (isMilestone) {
+        await Future.delayed(const Duration(milliseconds: 200));
+      }
+      if (mounted) _nextRound();
     } else if (result.result == TapResult.wrong) {
       setState(() {
         highlightedIndex = -1;
@@ -349,9 +339,9 @@ class _GameScreenState extends State<GameScreen> {
                 color: Colors.transparent,
                 child: Container(
                   width: 90,
-                  height: 56,
+                  constraints: const BoxConstraints(minHeight: 70),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
+                    horizontal: 12,
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
@@ -368,25 +358,48 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ],
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${_gameState.score}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (_milestoneScore != null)
+                          TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0.5, end: 1),
+                            duration: const Duration(milliseconds: 200),
+                            builder: (context, value, _) => Opacity(
+                              opacity: value,
+                              child: Text(
+                                loc.milestoneLevel(
+                                    '${(_milestoneScore! ~/ 5) + 1}'),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (widget.gameStatsService.highScore > 0)
+                          ),
                         Text(
-                          loc.bestScore(
-                              '${widget.gameStatsService.highScore}'),
+                          '${_gameState.score}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          loc.roundLength('${_gameState.sequence.length}'),
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -394,11 +407,27 @@ class _GameScreenState extends State<GameScreen> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onSurface
-                                    .withValues(alpha: 0.75),
+                                    .withValues(alpha: 0.6),
                               ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                    ],
+                        if (widget.gameStatsService.highScore > 0)
+                          Text(
+                            loc.bestScore(
+                                '${widget.gameStatsService.highScore}'),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.75),
+                                ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -488,19 +517,6 @@ class _GameScreenState extends State<GameScreen> {
               ),
             ],
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: ConfettiWidget(
-              confettiController: _confettiController,
-              blastDirection: pi / 2,
-              blastDirectionality: BlastDirectionality.explosive,
-              maxBlastForce: 8,
-              minBlastForce: 3,
-              emissionFrequency: 0.03,
-              numberOfParticles: 35,
-              gravity: 0.08,
             ),
           ),
         ],

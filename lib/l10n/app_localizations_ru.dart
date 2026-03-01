@@ -40,6 +40,16 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String milestoneLevel(Object level) {
+    return 'Уровень $level';
+  }
+
+  @override
+  String roundLength(Object count) {
+    return '$count цветов';
+  }
+
+  @override
   String get settings => 'Настройки';
 
   @override

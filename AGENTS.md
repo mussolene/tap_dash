@@ -12,7 +12,7 @@ Context for AI agents working on this Flutter project.
 - **Sequence:** Grows by one random color per round (`sequence.add(Random().nextInt(4))`)
 - **Flow:** `main` → `InitialScreen` → (`OnboardingScreen` | `GameScreen`); in game: `startGame` → `nextRound` → `playSequence` → user taps → `onColorTap` → correct: next round / wrong: game over
 - **Score:** Incremented on each successful round
-- **Celebration:** Confetti + melody every 5 points
+- **Celebration:** Milestone badge + melody every 5 points
 - **Progression:** High score persisted; speed increases every 5 rounds
 
 ## Code Structure
@@ -35,7 +35,7 @@ Context for AI agents working on this Flutter project.
 | `lib/game/game_state.dart` | Pure game logic (testable) |
 | `lib/l10n/` | Localizations (en, ru) |
 | `test/` | Widget and unit tests |
-| `pubspec.yaml` | Dependencies: flutter_sound, confetti, vibration, flutter_spinkit, intl, games_services, shared_preferences |
+| `pubspec.yaml` | Dependencies: flutter_sound, vibration, flutter_spinkit, intl, games_services, shared_preferences |
 
 ## Commands
 

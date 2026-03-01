@@ -8,6 +8,8 @@
   "close": "Close",
   "congrats": "Congrats!",
   "congratsScore": "You reached a score of {score}!",
+  "milestoneLevel": "Level {level}",
+  "roundLength": "{count} colors",
   "settings": "Settings",
   "sound": "Sound",
   "haptics": "Haptics",
