@@ -218,7 +218,7 @@ jobs:
       - name: Generate changelog for release
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
-          git cliff "$TAG" -o release_changelog.md
+          git cliff --latest --tag "$TAG" --strip header -o release_changelog.md
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
