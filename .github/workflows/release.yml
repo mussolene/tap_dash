@@ -123,6 +123,33 @@ jobs:
           name: macos
           path: build/macos/Build/Products/Release/macos-tap_dash.zip
 
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          IFS=. read -r ma mi pa <<< "$VERSION"
+          echo "BUILD_NUMBER=$((ma*10000 + mi*100 + ${pa:-0}))" >> $GITHUB_ENV
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter build ipa --release --build-name=${{ env.VERSION }} --build-number=${{ env.BUILD_NUMBER }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: build/ios/ipa/*.ipa
+
   build-windows:
     runs-on: windows-latest
     steps:
@@ -153,7 +180,7 @@ jobs:
 
   create-release:
     runs-on: ubuntu-latest
-    needs: [build-android, build-web, build-linux, build-macos, build-windows]
+    needs: [build-android, build-web, build-linux, build-macos, build-ios, build-windows]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -179,6 +206,7 @@ jobs:
           mkdir -p release
           cp "$(find artifacts/apk -name 'app-release.apk' | head -1)" release/tap_dash-$VERSION.apk
           cp artifacts/macos/*.zip release/tap_dash-$VERSION-macos.zip 2>/dev/null || true
+          cp artifacts/ios/*.ipa release/tap_dash-$VERSION.ipa 2>/dev/null || true
           (cd artifacts/web && zip -r ../../release/tap_dash-$VERSION-web.zip .)
           (cd artifacts/linux && zip -r ../../release/tap_dash-$VERSION-linux.zip .)
           (cd artifacts/windows && zip -r ../../release/tap_dash-$VERSION-windows.zip .)
