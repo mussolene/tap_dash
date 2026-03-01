@@ -31,9 +31,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Color Sequence Game'), findsOneWidget);
-    expect(find.text('0'), findsWidgets); // Score in corner overlay
-    expect(find.text('Start'), findsOneWidget);
+    expect(find.text('0'), findsWidgets); // Score in header
+    expect(find.text('Start'), findsOneWidget); // Start button in header
   });
 
   testWidgets('MyApp theme updates when settings change', (WidgetTester tester) async {

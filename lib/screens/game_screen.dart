@@ -312,177 +312,20 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final size = MediaQuery.of(context).size;
     return ValueListenableBuilder<AppSettings>(
       valueListenable: widget.settingsService.settings,
       builder: (context, appSettings, _) {
         final numColors = appSettings.numColors;
-        const horizontalPadding = 20.0;
-        const gridSpacing = 16.0;
-        final buttonSize =
-            (size.width - horizontalPadding * 2 - gridSpacing) / 2;
+        const gridSpacing = 12.0;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.appTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (context) => SettingsScreen(
-                    settingsService: widget.settingsService,
-                    onShowLeaderboard: () =>
-                        GamesServicesController.instance.showLeaderboards(),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
-              Theme.of(context).colorScheme.surface,
-            ],
-          ),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 8,
-              right: 12,
-              child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  width: 90,
-                  constraints: const BoxConstraints(minHeight: 70),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .surface
-                        .withValues(alpha: 0.92),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (_milestoneScore != null)
-                          TweenAnimationBuilder<double>(
-                            tween: Tween(begin: 0.5, end: 1),
-                            duration: const Duration(milliseconds: 200),
-                            builder: (context, value, _) => Opacity(
-                              opacity: value,
-                              child: Text(
-                                loc.milestoneLevel(
-                                    '${(_milestoneScore! ~/ 5) + 1}'),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        Text(
-                          '${_gameState.score}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          loc.roundLength('${_gameState.sequence.length}'),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withValues(alpha: 0.6),
-                              ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (widget.gameStatsService.highScore > 0)
-                          Text(
-                            loc.bestScore(
-                                '${widget.gameStatsService.highScore}'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withValues(alpha: 0.75),
-                                ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: size.height),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(
             children: [
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: numColors,
-                itemBuilder: (context, index) => ColorButton(
-                  color: _colors[index],
-                  isHighlighted: highlightedIndex == index,
-                  showCorrectFlash: _lastCorrectIndex == index,
-                  size: buttonSize,
-                  onTap: () => _onColorTap(index),
-                ),
-                ),
-              ),
-              const SizedBox(height: 24),
               GestureDetector(
                 onTapDown: (_) async {
                   setState(() => pressedIndex = _startButtonIndex);
@@ -497,44 +340,35 @@ class _GameScreenState extends State<GameScreen> {
                 child: TweenAnimationBuilder<double>(
                   key: ValueKey(pressedIndex == _startButtonIndex),
                   tween: Tween(
-                    begin: pressedIndex == _startButtonIndex ? 1.0 : 0.93,
-                    end: pressedIndex == _startButtonIndex ? 0.93 : 1.0,
+                    begin: pressedIndex == _startButtonIndex ? 1.0 : 0.95,
+                    end: pressedIndex == _startButtonIndex ? 0.95 : 1.0,
                   ),
                   duration: Duration(
-                    milliseconds: pressedIndex == _startButtonIndex ? 80 : 180,
+                    milliseconds: pressedIndex == _startButtonIndex ? 80 : 150,
                   ),
                   curve: pressedIndex == _startButtonIndex
                       ? Curves.easeIn
-                      : Curves.elasticOut,
-                  builder: (context, scale, child) {
-                    final isPressed = pressedIndex == _startButtonIndex;
-                    final primary = Theme.of(context).colorScheme.primary;
+                      : Curves.easeOut,
+                  builder: (context, scale, _) {
+                    final primary =
+                        Theme.of(context).colorScheme.primary;
                     return Transform.scale(
                       scale: scale,
                       child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: primary,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(
-                                alpha: isPressed ? 0.10 : 0.25,
-                              ),
-                              blurRadius: isPressed ? 4 : 12,
-                              offset: Offset(0, isPressed ? 2 : 6),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 36,
-                          vertical: 16,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           loc.start,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -542,11 +376,117 @@ class _GameScreenState extends State<GameScreen> {
                   },
                 ),
               ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (_milestoneScore != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: Text(
+                          loc.milestoneLevel(
+                              '${(_milestoneScore! ~/ 5) + 1}'),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    Text(
+                      '${_gameState.score}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (widget.gameStatsService.highScore > 0) ...[
+                      Text(
+                        ' · ${widget.gameStatsService.highScore}',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.7),
+                            ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                padding: const EdgeInsets.all(8),
+                constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => SettingsScreen(
+                        settingsService: widget.settingsService,
+                        onShowLeaderboard: () =>
+                            GamesServicesController.instance.showLeaderboards(),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+              Theme.of(context).colorScheme.surface,
+            ],
+          ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final rows = (numColors + 1) ~/ 2;
+            const pad = 20.0;
+            final bottomInset = MediaQuery.of(context).padding.bottom;
+            final availW = constraints.maxWidth - pad * 2 - gridSpacing;
+            final availH = constraints.maxHeight - pad * 2 - bottomInset - gridSpacing * (rows - 1);
+            final sizeFromWidth = availW / 2;
+            final sizeFromHeight = availH / rows;
+            final buttonSize = sizeFromWidth < sizeFromHeight ? sizeFromWidth : sizeFromHeight;
+            return Padding(
+              padding: EdgeInsets.fromLTRB(pad, pad, pad, pad + bottomInset),
+              child: Center(
+                child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: gridSpacing,
+                  crossAxisSpacing: gridSpacing,
+                  childAspectRatio: 1,
+                  mainAxisExtent: buttonSize,
+                ),
+                itemCount: numColors,
+                itemBuilder: (context, index) => ColorButton(
+                  color: _colors[index],
+                  isHighlighted: highlightedIndex == index,
+                  showCorrectFlash: _lastCorrectIndex == index,
+                  size: buttonSize,
+                  onTap: () => _onColorTap(index),
+                ),
               ),
             ),
-          ),
-        ],
+            );
+          },
         ),
       ),
     );
