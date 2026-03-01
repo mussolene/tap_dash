@@ -5,9 +5,13 @@ const _keySound = 'sound_enabled';
 const _keyHaptics = 'haptics_enabled';
 const _keyTheme = 'theme_mode';
 const _keyNumColors = 'num_colors';
+const _keySpeed = 'speed_multiplier';
 
 /// Supported color counts for difficulty (4, 6, 8).
 const List<int> numColorsOptions = [4, 6, 8];
+
+/// Speed multipliers for sequence playback. Higher = faster (1.0 = normal).
+const List<double> speedOptions = [1.0, 1.25, 1.5, 2.0];
 
 /// Application settings, persisted via shared_preferences.
 class AppSettings {
@@ -15,12 +19,14 @@ class AppSettings {
   final bool hapticsEnabled;
   final ThemeMode themeMode;
   final int numColors;
+  final double speedMultiplier;
 
   const AppSettings({
     this.soundEnabled = true,
     this.hapticsEnabled = true,
     this.themeMode = ThemeMode.system,
     this.numColors = 4,
+    this.speedMultiplier = 1.0,
   });
 
   AppSettings copyWith({
@@ -28,12 +34,14 @@ class AppSettings {
     bool? hapticsEnabled,
     ThemeMode? themeMode,
     int? numColors,
+    double? speedMultiplier,
   }) =>
       AppSettings(
         soundEnabled: soundEnabled ?? this.soundEnabled,
         hapticsEnabled: hapticsEnabled ?? this.hapticsEnabled,
         themeMode: themeMode ?? this.themeMode,
         numColors: numColors ?? this.numColors,
+        speedMultiplier: speedMultiplier ?? this.speedMultiplier,
       );
 }
 
@@ -46,6 +54,7 @@ class SettingsService {
           hapticsEnabled: prefs.getBool(_keyHaptics) ?? true,
           themeMode: _themeModeFromInt(prefs.getInt(_keyTheme) ?? 0),
           numColors: _clampNumColors(prefs.getInt(_keyNumColors) ?? 4),
+          speedMultiplier: _clampSpeed(prefs.getDouble(_keySpeed) ?? 1.0),
         ));
 
   final SharedPreferences _prefs;
@@ -61,6 +70,13 @@ class SettingsService {
 
   static int _clampNumColors(int v) {
     return numColorsOptions.contains(v) ? v : 4;
+  }
+
+  static double _clampSpeed(double v) {
+    for (final opt in speedOptions) {
+      if ((v - opt).abs() < 0.01) return opt;
+    }
+    return 1.0;
   }
 
   static int _themeModeToInt(ThemeMode m) {
@@ -97,5 +113,11 @@ class SettingsService {
     final v = _clampNumColors(n);
     await _prefs.setInt(_keyNumColors, v);
     settings.value = settings.value.copyWith(numColors: v);
+  }
+
+  Future<void> setSpeedMultiplier(double s) async {
+    final v = _clampSpeed(s);
+    await _prefs.setDouble(_keySpeed, v);
+    settings.value = settings.value.copyWith(speedMultiplier: v);
   }
 }

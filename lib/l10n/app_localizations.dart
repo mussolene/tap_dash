@@ -307,6 +307,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} colors'**
   String numColorsLabel(Object count);
+
+  /// No description provided for @speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get speed;
+
+  /// No description provided for @speedNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get speedNormal;
+
+  /// No description provided for @speedFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get speedFast;
+
+  /// No description provided for @speedFaster.
+  ///
+  /// In en, this message translates to:
+  /// **'Faster'**
+  String get speedFaster;
+
+  /// No description provided for @speedFastest.
+  ///
+  /// In en, this message translates to:
+  /// **'Fastest'**
+  String get speedFastest;
 }
 
 class _AppLocalizationsDelegate

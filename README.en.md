@@ -9,6 +9,7 @@
 ## Features
 
 - 4, 6, or 8 color cubes (configurable difficulty in Settings)
+- Compact header: Start button, score, and settings in one row; cubes centered fullscreen
 - Sound and haptic feedback — tap cubes before starting to try the xylophone
 - Synthesized xylophone-style notes for each color (demo mode: play sounds before game start)
 - Milestone celebration every 5 points (badge + melody)

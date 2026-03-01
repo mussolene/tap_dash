@@ -118,8 +118,9 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> _playSequence() async {
-    final noteDisplay = _noteDisplayMs(_gameState.score);
-    final pauseBetween = _pauseMs(_gameState.score);
+    final speed = widget.settingsService.current.speedMultiplier;
+    var noteDisplay = (_noteDisplayMs(_gameState.score) / speed).round().clamp(80, 500);
+    var pauseBetween = (_pauseMs(_gameState.score) / speed).round().clamp(50, 300);
     final soundDuration = (noteDisplay * 0.5).round().clamp(120, 180);
 
     for (final index in _gameState.sequence) {

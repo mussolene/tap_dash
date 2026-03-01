@@ -33,5 +33,10 @@
   "onboardingStep2": "Repeat the sequence by tapping the buttons",
   "onboardingStep3": "Each round adds one more color. Don't make a mistake!",
   "difficulty": "Difficulty",
-  "numColorsLabel": "{count} colors"
+  "numColorsLabel": "{count} colors",
+  "speed": "Speed",
+  "speedNormal": "Normal",
+  "speedFast": "Fast",
+  "speedFaster": "Faster",
+  "speedFastest": "Fastest"
 }

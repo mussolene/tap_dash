@@ -133,4 +133,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String numColorsLabel(Object count) {
     return '$count colors';
   }
+
+  @override
+  String get speed => 'Speed';
+
+  @override
+  String get speedNormal => 'Normal';
+
+  @override
+  String get speedFast => 'Fast';
+
+  @override
+  String get speedFaster => 'Faster';
+
+  @override
+  String get speedFastest => 'Fastest';
 }
