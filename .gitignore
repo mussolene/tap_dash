@@ -11,8 +11,8 @@ coverage/
 .fvm/
 lib/generated_plugin_registrant.dart
 
-# Pub
-pubspec.lock
+# Pub (keep pubspec.lock for apps - remove this line to ignore)
+# pubspec.lock
 
 # Android
 **/android/.gradle/
@@ -80,3 +80,12 @@ flutter_*.log
 
 # Test
 .test_coverage.dart
+
+# Generated (build_runner)
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# Debug
+*.stackdump
+*.dSYM/
