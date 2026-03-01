@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Conventional Commits (commitlint)
 - Release workflow: builds and GitHub Release on tag push (v*)
 - cliff.toml for changelog generation
+- InitialScreen: routes to OnboardingScreen or GameScreen based on first-launch flag
+- OnboardingScreen: "How to play" welcome on first launch
+- SettingsScreen: sound, haptics, theme (accessed from GameScreen)
+- GameStatsService: high score, games played, onboarding flag persistence
+- GamesServicesController: Game Center (iOS) / Play Games (Android) leaderboard integration
 
 ## [1.0.0] - 2025-02-28
 

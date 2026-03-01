@@ -38,4 +38,81 @@ class AppLocalizationsRu extends AppLocalizations {
   String congratsScore(Object score) {
     return 'Вы достигли счёта $score!';
   }
+
+  @override
+  String get settings => 'Настройки';
+
+  @override
+  String get sound => 'Звук';
+
+  @override
+  String get haptics => 'Вибрация';
+
+  @override
+  String get theme => 'Тема';
+
+  @override
+  String get themeSystem => 'Системная';
+
+  @override
+  String get themeLight => 'Светлая';
+
+  @override
+  String get themeDark => 'Тёмная';
+
+  @override
+  String bestScore(Object score) {
+    return 'Рекорд: $score';
+  }
+
+  @override
+  String get playAgain => 'Играть снова';
+
+  @override
+  String newRecord(Object score) {
+    return 'Новый рекорд: $score!';
+  }
+
+  @override
+  String get greatRun => 'Отличная попытка!';
+
+  @override
+  String get almostThere => 'Почти получилось!';
+
+  @override
+  String get soClose => 'Так близко!';
+
+  @override
+  String scoreVsBest(Object best, Object score) {
+    return 'Счёт: $score | Рекорд: $best';
+  }
+
+  @override
+  String awayFromBest(Object diff) {
+    return 'До рекорда: $diff';
+  }
+
+  @override
+  String get round => 'Раунд';
+
+  @override
+  String stepProgress(Object current, Object total) {
+    return '$current из $total';
+  }
+
+  @override
+  String get leaderboard => 'Таблица лидеров';
+
+  @override
+  String get howToPlay => 'Как играть';
+
+  @override
+  String get onboardingStep1 => 'Смотри на последовательность цветов';
+
+  @override
+  String get onboardingStep2 => 'Повтори последовательность, нажимая на кнопки';
+
+  @override
+  String get onboardingStep3 =>
+      'Каждый раунд добавляет один цвет. Не ошибайся!';
 }

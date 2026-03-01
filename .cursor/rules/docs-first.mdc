@@ -1,0 +1,14 @@
+---
+description: Check documentation before major changes
+alwaysApply: true
+---
+
+# Documentation-First
+
+Before making significant changes:
+
+1. Read [AGENTS.md](AGENTS.md) for project structure and conventions
+2. Check relevant .cursor/rules for the affected file types
+3. When adding features: update AGENTS.md if structure changes, add dartdoc for new public APIs
+4. When modifying game logic: ensure game_state.dart and game_screen.dart docs stay accurate
+5. When adding/changing code: ensure test coverage stays ≥90%

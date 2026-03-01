@@ -77,5 +77,17 @@ void main() {
 
       expect(result.result, TapResult.wrong);
     });
+
+    test('processTap returns wrong for invalid index', () {
+      final state = GameState(sequence: [0, 1], isPlaying: true);
+      expect(state.processTap(4).result, TapResult.wrong);
+      expect(state.processTap(-1).result, TapResult.wrong);
+    });
+
+    test('processTap returns wrong for empty sequence', () {
+      final state = GameState(sequence: [], isPlaying: true);
+      final result = state.processTap(0);
+      expect(result.result, TapResult.wrong);
+    });
   });
 }

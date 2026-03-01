@@ -65,10 +65,6 @@ class GameState {
     );
   }
 
-  /// Whether the current round is complete (player repeated the full sequence).
-  bool get isRoundComplete =>
-      isPlaying && sequence.isNotEmpty && currentStep == sequence.length;
-
   GameState copyWith({
     List<int>? sequence,
     int? score,

@@ -24,10 +24,17 @@ alwaysApply: false
 - Test pure logic in isolation; inject dependencies when possible
 - Use `expect()` from `package:test/test.dart`
 
+## Coverage
+
+- Minimum **90%** coverage for `lib/`
+- Run `flutter test --coverage` to generate `coverage/lcov.info`
+- Ensure coverage stays ≥90% when adding or changing code
+
 ## Running
 
 ```bash
 flutter test
+flutter test --coverage   # With coverage report
 ```
 
-Ensure all tests pass before committing.
+Ensure all tests pass and coverage ≥90% before committing.

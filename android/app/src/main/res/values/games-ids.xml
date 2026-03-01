@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Replace with your Play Games Services IDs from Google Play Console.
+  Get resources: Play Games Services → Setup and management → Configuration → Credentials → Get resources
+  See: https://docs.flutter.dev/cookbook/games/achievements-leaderboard
+-->
+<resources>
+    <!-- app_id from Google Play Console -->
+    <string name="app_id" translatable="false">0</string>
+    <!-- package_name must match applicationId in build.gradle -->
+    <string name="package_name" translatable="false">com.example.tap_dash</string>
+    <!-- leaderboard_highest_score: ID from your leaderboard in Play Games -->
+    <string name="leaderboard_highest_score" translatable="false">tap_dash_high_score</string>
+</resources>

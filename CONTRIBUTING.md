@@ -27,13 +27,14 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/). 
 ## Making Changes
 
 - Follow the project's Dart/Flutter style (see `.cursor/rules/`)
-- Add tests for new logic in `lib/game/` or `lib/services/`
+- Add tests for new logic in `lib/game/` or `lib/services/`; **coverage for `lib/` must stay ≥90%**
 - Add or update localization strings in `lib/l10n/app_en.arb` and `app_ru.arb`
 
 ## Submitting Changes
 
 1. Ensure `flutter analyze` passes
 2. Ensure `flutter test` passes
-3. Use conventional commit messages
-4. Update CHANGELOG.md if appropriate
-5. Open a pull request
+3. Check coverage: run `flutter test --coverage`; coverage for `lib/` must be ≥90% (CI enforces this)
+4. Use conventional commit messages
+5. Update CHANGELOG.md if appropriate
+6. Open a pull request
