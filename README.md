@@ -1,30 +1,30 @@
 # tap_dash
 
-**Color Sequence Game** — a Simon Says-style memory game built with Flutter. Watch the sequence of colored buttons, then repeat it. Each round adds one more color to remember.
+**Игра с цветовой последовательностью** — игра на память в стиле «Саймон говорит» на Flutter. Следи за последовательностью цветных кнопок и повтори её. С каждым раундом добавляется ещё один цвет.
 
-| Onboarding | Game | Settings |
-|:----------:|:----:|:--------:|
+| Онбординг | Игра | Настройки |
+|:---------:|:----:|:---------:|
 | ![Onboarding](docs/onboarding_screen.png) | ![Game](docs/game_screen.png) | ![Settings](docs/settings_screen.png) |
 
-## Features
+## Возможности
 
-- 4, 6, or 8 color cubes (configurable difficulty in Settings)
-- Sound and haptic feedback — tap cubes before starting to try the xylophone
-- Synthesized xylophone-style notes for each color (demo mode: play sounds before game start)
-- Milestone celebration every 5 points (badge + melody)
-- Light/dark theme (system-based) and Settings screen (sound, haptics, theme)
-- Onboarding "How to play" on first launch
-- Localization: English and Russian
-- Runs on iOS, Android, Web, macOS, Linux, Windows
+- 4, 6 или 8 цветных кубиков (сложность настраивается в «Настройках»)
+- Звуковая и тактильная отдача — нажми на кубики до старта, чтобы попробовать ксилофон
+- Синтезированные ноты в стиле ксилофона для каждого цвета (демо-режим: звуки до начала игры)
+- Празднование каждые 5 очков (значок + мелодия)
+- Светлая/тёмная тема (по системе) и экран настроек (звук, вибрация, тема)
+- Онбординг «Как играть» при первом запуске
+- Локализация: русский и английский
+- Платформы: iOS, Android, Web, macOS, Linux, Windows
 
-## Getting Started
+## Быстрый старт
 
-### Prerequisites
+### Требования
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) (3.6.0+)
 - Dart SDK ^3.6.0
 
-### Installation
+### Установка
 
 ```bash
 git clone <repository-url>
@@ -32,79 +32,83 @@ cd tap_dash
 flutter pub get
 ```
 
-### Run
+### Запуск
 
 ```bash
-# iOS Simulator (requires Xcode, CocoaPods: brew install cocoapods)
+# iOS Simulator (нужен Xcode, CocoaPods: brew install cocoapods)
 ./run_ios.sh
-# or: DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer flutter run -d ios --debug
+# или: DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer flutter run -d ios --debug
 
-# Run on connected device or emulator
+# Запуск на подключённом устройстве или эмуляторе
 flutter run
 
-# Build for release
+# Сборка для релиза
 flutter build apk      # Android
 flutter build ios      # iOS
 flutter build web      # Web
 ```
 
-`run_ios.sh` sets `DEVELOPER_DIR` for Xcode and runs the app on the iOS Simulator in debug mode. Use it when the default `flutter run -d ios` fails due to Xcode path issues.
+Скрипт `run_ios.sh` задаёт `DEVELOPER_DIR` для Xcode и запускает приложение в iOS Simulator в режиме отладки. Используй его, когда `flutter run -d ios` выдаёт ошибки из-за пути к Xcode.
 
-### Test
+### Тесты
 
 ```bash
 flutter analyze
 flutter test
-flutter test --coverage   # Generate coverage report; required ≥90% for lib/
+flutter test --coverage   # Отчёт покрытия; требуется ≥89% для lib/
 ```
 
-**Test coverage:** Coverage for `lib/` must be at least 90%. Run `flutter test --coverage` before submitting changes.
+**Покрытие тестами:** для `lib/` должно быть не менее 89%. Запусти `flutter test --coverage` перед коммитом.
 
-## Project Structure
+## Структура проекта
 
 ```
 lib/
-├── main.dart              # App entry, DI bootstrap
+├── main.dart              # Точка входа, DI
 ├── screens/
-│   ├── initial_screen.dart    # Routes to onboarding or game (first launch)
-│   ├── onboarding_screen.dart # "How to play" welcome (first launch only)
-│   ├── game_screen.dart       # Main game screen
-│   └── settings_screen.dart   # Sound, haptics, theme settings
+│   ├── initial_screen.dart    # Маршрутизация (онбординг или игра при первом запуске)
+│   ├── onboarding_screen.dart # «Как играть» (только первый запуск)
+│   ├── game_screen.dart       # Основной экран игры
+│   └── settings_screen.dart   # Настройки: звук, вибрация, тема
 ├── widgets/
-│   ├── color_button.dart      # Color grid button
-│   └── settings_tile.dart     # Settings row widget
+│   ├── color_button.dart      # Кнопка цветной сетки
+│   └── settings_tile.dart     # Строка настроек
 ├── services/
-│   ├── audio_service.dart           # Synthesized xylophone audio
-│   ├── game_stats_service.dart      # High score, games played, onboarding flag
-│   ├── games_services_controller.dart # Game Center / Play Games (leaderboard)
-│   └── settings_service.dart        # Sound, haptics, theme
+│   ├── audio_service.dart           # Синтез ксилофона
+│   ├── game_stats_service.dart      # Рекорд, количество игр, флаг онбординга
+│   ├── games_services_controller.dart # Game Center / Play Games (таблица лидеров)
+│   └── settings_service.dart        # Звук, вибрация, тема
 ├── game/
-│   └── game_state.dart       # Pure game logic (testable)
-└── l10n/                    # Localizations (en, ru)
+│   └── game_state.dart       # Чистая игровая логика (тестируемая)
+└── l10n/                    # Локализации (en, ru)
 ```
 
-## Build for Store
+## Сборка для магазинов
 
 **Android:**
-- Release APK: `flutter build apk`
+- Релиз APK: `flutter build apk`
 - App Bundle (Play Store): `flutter build appbundle`
 
 **iOS:**
-- Archive via Xcode: Open `ios/Runner.xcworkspace`, Product → Archive
-- Or: `flutter build ios` then archive in Xcode
+- Архив через Xcode: открой `ios/Runner.xcworkspace`, Product → Archive
+- Или: `flutter build ios`, затем архив в Xcode
 
 **Web:**
-- `flutter build web` — output in `build/web/`
+- `flutter build web` — результат в `build/web/`
 
-## Troubleshooting
+## Решение проблем
 
-| Issue | Solution |
-|-------|----------|
-| `flutter pub get` fails | Ensure Flutter SDK is on PATH; run `flutter doctor` |
-| iOS build / CocoaPods errors | `cd ios && pod install && cd ..`; ensure Xcode CLI: `sudo xcode-select -s /Applications/Xcode.app` |
-| `flutter analyze` warnings | Fix lints in `analysis_options.yaml`; run `dart format .` |
-| Tests fail | Run `flutter test --coverage`; ensure coverage ≥90% for new code |
+| Проблема | Решение |
+|----------|---------|
+| Ошибка `flutter pub get` | Проверь Flutter в PATH; выполни `flutter doctor` |
+| Ошибки iOS / CocoaPods | `cd ios && pod install && cd ..`; проверь Xcode CLI: `sudo xcode-select -s /Applications/Xcode.app` |
+| Предупреждения `flutter analyze` | Исправь линты в `analysis_options.yaml`; выполни `dart format .` |
+| Падают тесты | Запусти `flutter test --coverage`; проверь покрытие ≥89% для нового кода |
 
-## License
+## Лицензия
 
-See [LICENSE](LICENSE) for details.
+См. [LICENSE](LICENSE).
+
+---
+
+[English](README.en.md)
