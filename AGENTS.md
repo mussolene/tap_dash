@@ -48,7 +48,13 @@ flutter test --coverage  # Run tests with coverage; lib/ must be ≥90%
 flutter run            # Run app
 flutter build apk      # Android release
 flutter build web      # Web release
+./scripts/set_version_from_tag.sh v1.2.0  # Sync pubspec version from tag
 ```
+
+## Versioning
+
+- **Releases:** Version is taken from the git tag (`v1.2.0` → `1.2.0`). The release workflow passes `--build-name` and `--build-number` to `flutter build`.
+- **build-number:** Derived from semver (1.2.0 → 10200) for Android `versionCode` and iOS `CFBundleVersion`.
 
 ## Localization
 

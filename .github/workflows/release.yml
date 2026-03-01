@@ -14,6 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          IFS=. read -r ma mi pa <<< "$VERSION"
+          echo "BUILD_NUMBER=$((ma*10000 + mi*100 + ${pa:-0}))" >> $GITHUB_ENV
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -26,7 +34,7 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build apk --release --build-name=${{ env.VERSION }} --build-number=${{ env.BUILD_NUMBER }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -38,6 +46,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.27.0'
@@ -45,7 +59,7 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: flutter build web --release
+      - run: flutter build web --release --build-name=${{ env.VERSION }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -56,6 +70,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - run: |
           sudo apt-get update
@@ -68,7 +88,7 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: flutter build linux --release
+      - run: flutter build linux --release --build-name=${{ env.VERSION }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -80,6 +100,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          IFS=. read -r ma mi pa <<< "$VERSION"
+          echo "BUILD_NUMBER=$((ma*10000 + mi*100 + ${pa:-0}))" >> $GITHUB_ENV
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.27.0'
@@ -87,7 +115,7 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: flutter build macos --release
+      - run: flutter build macos --release --build-name=${{ env.VERSION }} --build-number=${{ env.BUILD_NUMBER }}
 
       - run: cd build/macos/Build/Products/Release && zip -r macos-tap_dash.zip tap_dash.app
       - uses: actions/upload-artifact@v4
@@ -100,6 +128,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set version from tag
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          IFS=. read -r ma mi pa <<< "$VERSION"
+          echo "BUILD_NUMBER=$((ma*10000 + mi*100 + ${pa:-0}))" >> $GITHUB_ENV
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.27.0'
@@ -107,7 +144,7 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: flutter build windows --release
+      - run: flutter build windows --release --build-name=${{ env.VERSION }} --build-number=${{ env.BUILD_NUMBER }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -121,6 +158,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set up git-cliff
+        uses: kenji-miyake/setup-git-cliff@v2
+
+      - name: Generate changelog for release
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          git cliff "$TAG" -o release_changelog.md
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -141,7 +186,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          body_path: release_changelog.md
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

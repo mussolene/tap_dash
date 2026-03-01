@@ -7,10 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tap_dash/l10n/app_localizations.dart';
 import 'package:tap_dash/screens/initial_screen.dart';
+import 'package:tap_dash/screens/game_screen.dart';
+import 'package:tap_dash/screens/settings_screen.dart';
 import 'package:tap_dash/services/audio_service_interface.dart';
 import 'package:tap_dash/services/game_stats_service.dart';
 import 'package:tap_dash/services/games_services_controller.dart';
 import 'package:tap_dash/services/settings_service.dart';
+
+const bool _screenshotSettings =
+    bool.fromEnvironment('SCREENSHOT_SETTINGS', defaultValue: false);
+const bool _screenshotGame =
+    bool.fromEnvironment('SCREENSHOT_GAME', defaultValue: false);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +26,8 @@ void main() async {
   runApp(MyApp(
     settingsService: settingsService,
     gameStatsService: gameStatsService,
+    screenshotSettings: _screenshotSettings,
+    screenshotGame: _screenshotGame,
   ));
 }
 
@@ -30,6 +39,8 @@ class MyApp extends StatefulWidget {
     required this.gameStatsService,
     this.locale,
     this.audioService,
+    this.screenshotSettings = false,
+    this.screenshotGame = false,
     super.key,
   });
 
@@ -38,6 +49,12 @@ class MyApp extends StatefulWidget {
 
   /// Optional locale override for testing.
   final Locale? locale;
+
+  /// When true, show SettingsScreen directly (for README screenshots).
+  final bool screenshotSettings;
+
+  /// When true, show GameScreen directly (for README screenshots).
+  final bool screenshotGame;
 
   /// Optional audio service for testing (avoids FlutterSound in tests).
   final AudioServiceInterface? audioService;
@@ -99,11 +116,21 @@ class _MyAppState extends State<MyApp> {
         Locale('en'),
         Locale('ru'),
       ],
-      home: InitialScreen(
+      home: widget.screenshotSettings
+          ? SettingsScreen(
+              settingsService: widget.settingsService,
+            )
+          : widget.screenshotGame
+              ? GameScreen(
+                  settingsService: widget.settingsService,
+                  gameStatsService: widget.gameStatsService,
+                  audioService: widget.audioService,
+                )
+              : InitialScreen(
         settingsService: widget.settingsService,
         gameStatsService: widget.gameStatsService,
-        audioService: widget.audioService,
-      ),
+          audioService: widget.audioService,
+          ),
     );
   }
 }

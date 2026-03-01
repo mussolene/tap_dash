@@ -2,10 +2,15 @@
 
 **Color Sequence Game** — a Simon Says-style memory game built with Flutter. Watch the sequence of colored buttons, then repeat it. Each round adds one more color to remember.
 
+| Onboarding | Game | Settings |
+|:----------:|:----:|:--------:|
+| <img src="docs/onboarding_screen.png" width="280" height="480" alt="Onboarding" /> | <img src="docs/game_screen.png" width="280" height="480" alt="Game" /> | <img src="docs/settings_screen.png" width="280" height="480" alt="Settings" /> |
+
 ## Features
 
-- 4-color grid (red, green, blue, yellow) with sound and haptic feedback
-- Synthesized xylophone-style notes for each color
+- 4, 6, or 8 color cubes (configurable difficulty in Settings)
+- Sound and haptic feedback — tap cubes before starting to try the xylophone
+- Synthesized xylophone-style notes for each color (demo mode: play sounds before game start)
 - Milestone celebration every 5 points (badge + melody)
 - Light/dark theme (system-based) and Settings screen (sound, haptics, theme)
 - Onboarding "How to play" on first launch
